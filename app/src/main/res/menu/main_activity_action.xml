@@ -6,9 +6,7 @@
         android:title="查询"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/action_my_order"
-        android:title="我的预定"
-        app:showAsAction="ifRoom"/>
+        android:title="我的预定" />
     <item android:id="@+id/action_my_business"
-        android:title="我的收藏"
-        app:showAsAction="ifRoom"/>
+        android:title="店铺收藏" />
 </menu>

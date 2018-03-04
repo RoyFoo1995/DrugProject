@@ -41,6 +41,24 @@ public class Drug implements Serializable {
     private String business_password;
     private int business_status;
     private int business_phone;
+    private int status_id;
+    private String status_name;
+
+    public String getStatus_name() {
+        return status_name;
+    }
+
+    public void setStatus_name(String status_name) {
+        this.status_name = status_name;
+    }
+
+    public int getStatus_id() {
+        return status_id;
+    }
+
+    public void setStatus_id(int status_id) {
+        this.status_id = status_id;
+    }
 
     public int getRe_drug_business_id() {
         return re_drug_business_id;

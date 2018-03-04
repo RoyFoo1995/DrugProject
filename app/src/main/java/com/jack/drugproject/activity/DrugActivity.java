@@ -1,5 +1,6 @@
 package com.jack.drugproject.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.jack.drugproject.presenter.HttpRequestServer;
 import com.jack.drugproject.utils.ResponseUtil;
 import com.jack.drugproject.utils.ToastUtil;
 import com.jack.drugproject.utils.UserUtil;
+import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,7 +115,11 @@ public class DrugActivity extends AppCompatActivity {
     }
 
     private void go2Business() {
-
+        Intent intent = new Intent(this, BusinessActivity.class);
+        intent.putExtra("bsName", drug.getBusiness_name());
+        intent.putExtra("bsId", String.valueOf(drug.getBusiness_id()));
+        KLog.i(drug.getBusiness_name()+"   "+drug.getBusiness_id());
+        startActivity(intent);
     }
 
     @Override

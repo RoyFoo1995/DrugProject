@@ -20,7 +20,10 @@
         </activity>
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.DrugActivity"></activity>
+        <activity android:name=".activity.DrugActivity" />
+        <activity android:name=".activity.BusinessActivity" />
+        <activity android:name=".activity.OrderActivity" />
+        <activity android:name=".activity.BusinessListActivity"></activity>
     </application>
 
 </manifest>

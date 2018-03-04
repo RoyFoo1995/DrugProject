@@ -13,8 +13,11 @@ import android.widget.RelativeLayout;
 import com.google.gson.reflect.TypeToken;
 import com.jack.drugproject.R;
 import com.jack.drugproject.bean.Drug;
+import com.jack.drugproject.bean.User;
 import com.jack.drugproject.presenter.HttpRequestServer;
 import com.jack.drugproject.utils.ResponseUtil;
+import com.jack.drugproject.utils.ToastUtil;
+import com.jack.drugproject.utils.UserUtil;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -25,6 +28,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 
@@ -34,6 +38,8 @@ public class BusinessActivity extends AppCompatActivity {
     RecyclerView drugListRv;
 
     public static final String BUSINESS_URL = "/user/businessData";
+    public static final String BUSINESS_GET_URL = "/user/orderBusiness";
+    private String bsId;
     @BindView(R.id.null_rl)
     RelativeLayout nullRl;
     private ArrayList<Drug> drugArrayList;
@@ -49,7 +55,7 @@ public class BusinessActivity extends AppCompatActivity {
     private void initData() {
         Intent intent = getIntent();
         String bsName = intent.getStringExtra("bsName");
-        String bsId = intent.getStringExtra("bsId");
+        bsId = intent.getStringExtra("bsId");
         initActionBar(bsName);
         Map<String, String> map = new HashMap<>();
         map.put("business_id", bsId);
@@ -108,8 +114,9 @@ public class BusinessActivity extends AppCompatActivity {
     private void initActionBar(String bsName) {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle(bsName);
+        actionBar.setTitle("店铺：" + bsName);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -119,5 +126,33 @@ public class BusinessActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.business_btn)
+    public void onViewClicked() {
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", String.valueOf(((User) UserUtil.getCurrentUser()).getUser_id()));
+        map.put("business_id", bsId);
+        HttpRequestServer.create(this).doGetWithParams(BUSINESS_GET_URL, map, new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                if (ResponseUtil.verify(responseBody, false)) {
+                    ToastUtil.getInstance().log("收藏成功");
+                    finish();
+                }else {
+                    ToastUtil.getInstance().log("不能重复收藏");
+                }
+            }
+        });
     }
 }
